@@ -3,7 +3,7 @@ import time
 import threadpool
 import tensorflow as tf
 import queue
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, Executor
+import threading
 
 
 
@@ -12,9 +12,10 @@ def work():
     print("key is ")
     print ('index %s, curent: ', threading.current_thread())
     time.sleep(1)
+    threading.Condition().notify_all()
 
 def sb(x):
-
+    threading.Condition().wait()
     for i in range(100000000000000000000000000000):
         x = x+1
         print(x)
@@ -65,14 +66,16 @@ def thread_test():
     t2 = threading.Thread(target=sb(300))
     t3 = threading.Thread(target=sb(200))
     t4 = threading.Thread(target=sb(600))
+    t5 = threading.Thread(target=work())
     t1.start()
     t2.start()
     t3.start()
     t4.start()
+    t5.start()
 
-def multi_process():
-    pool = ProcessPoolExecutor(max_workers=4)
-    results = list(pool.map(sb, [500,200,300,100]))
+# def multi_process():
+#     pool = ProcessPoolExecutor(max_workers=4)
+#     results = list(pool.map(sb, [500,200,300,100]))
 
 
-multi_process()
+thread_test()
