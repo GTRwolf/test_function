@@ -151,7 +151,7 @@ class Worker(object):
                         self.AC.a_his: buffer_a,
                         self.AC.v_target: buffer_v_target,
                     }
-                    print(ep_t, " | c_loss", SESS.run(self.AC.c_loss, feed_dict=feed_dict))
+                    #print(ep_t, " | c_loss", SESS.run(self.AC.c_loss, feed_dict=feed_dict))
                     self.AC.update_global(feed_dict)
                     buffer_s, buffer_a, buffer_r = [], [], []
                    # self.AC.pull_global()
@@ -163,12 +163,12 @@ class Worker(object):
                         GLOBAL_RUNNING_R.append(ep_r)
                     else:
                         GLOBAL_RUNNING_R.append(0.9 * GLOBAL_RUNNING_R[-1] + 0.1 * ep_r)
-                    # print(
-                    #     self.name,
-                    #     "Ep:", GLOBAL_EP,
-                    #     "| Ep_r: %i" % GLOBAL_RUNNING_R[-1],
-                    #     "golbal_len %d" % len(GLOBAL_RUNNING_R)
-                    #       )
+                    print(
+                        self.name,
+                        "Ep:", GLOBAL_EP,
+                        "| Ep_r: %i" % GLOBAL_RUNNING_R[-1],
+                        "golbal_len %d" % len(GLOBAL_RUNNING_R)
+                          )
                     GLOBAL_EP += 1
                     break
 

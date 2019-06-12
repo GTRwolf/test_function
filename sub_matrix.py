@@ -1,7 +1,10 @@
 import numpy as np
 
-a = np.ones((10,10))
-b = np.zeros((1,10))
+a = np.array([[1],[2],[3],[4],[5],[6]])
+b = np.array([[[0,1,0,1,0,0]],[[0,1,0,1,5,0]]])
+c = np.array([[[1,0,1,0,1,1]], [[1],[2],[3],[4],[5]]])
 
-c = np.subtract(a, b)
-print(c)
+
+out = list(zip(b, c))
+for i in out[::-1]:
+    print(i)

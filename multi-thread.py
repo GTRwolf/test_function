@@ -9,17 +9,20 @@ import threading
 
 
 def work():
-    print("key is ")
-    print ('index %s, curent: ', threading.current_thread())
-    time.sleep(1)
-    threading.Condition().notify_all()
+    with cond:
+        print("key is ")
+        print ('index %s, curent: ', threading.current_thread())
+        time.sleep(1)
+        cond.notify_all()
 
 def sb(x):
-    threading.Condition().wait()
-    for i in range(100000000000000000000000000000):
-        x = x+1
-        print(x)
-        x = x-1
+    with cond:
+        print("1111")
+        cond.wait()
+        for i in range(10):
+            x = x+1
+            print(x)
+            x = x-1
 
 def gcd(pair):
     a, b = pair
@@ -67,15 +70,16 @@ def thread_test():
     t3 = threading.Thread(target=sb(200))
     t4 = threading.Thread(target=sb(600))
     t5 = threading.Thread(target=work())
+    t5.start()
     t1.start()
     t2.start()
     t3.start()
     t4.start()
-    t5.start()
+
 
 # def multi_process():
 #     pool = ProcessPoolExecutor(max_workers=4)
 #     results = list(pool.map(sb, [500,200,300,100]))
 
-
+cond = threading.Condition()
 thread_test()
